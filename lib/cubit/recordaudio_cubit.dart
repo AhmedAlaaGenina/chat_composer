@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 part 'recordaudio_state.dart';
+
+Codec codec = Codec.aacADTS;
 
 class RecordAudioCubit extends Cubit<RecordaudioState> {
   final FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
@@ -25,7 +27,7 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
     required this.onRecordCancel,
     required this.maxRecordLength,
   }) : super(RecordAudioReady()) {
-    _myRecorder.openAudioSession().then((value) {
+    _myRecorder.openRecorder().then((value) {
       _myRecorder.setSubscriptionDuration(const Duration(milliseconds: 200));
       recorderStream = _myRecorder.onProgress!.listen((event) {
         Duration current = event.duration;
@@ -52,27 +54,34 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
     }
     currentDuration.value = Duration.zero;
     try {
-      bool hasStorage = await Permission.storage.isGranted;
-      bool hasMic = await Permission.microphone.isGranted;
+      if (!kIsWeb) {
+        bool hasStorage = await Permission.storage.isGranted;
+        bool hasMic = await Permission.microphone.isGranted;
 
-      if (!hasStorage || !hasMic) {
-        if (!hasStorage) await Permission.storage.request();
-        if (!hasMic) await Permission.microphone.request();
-        log('[chat_composer] 🔴 Denied permissions');
-        return;
+        if (!hasStorage || !hasMic) {
+          if (!hasStorage) await Permission.storage.request();
+          if (!hasMic) await Permission.microphone.request();
+          log('[chat_composer] 🔴 Denied permissions');
+          return;
+        }
       }
       if (onRecordStart != null) onRecordStart!();
+      if (kIsWeb) codec = Codec.opusWebM;
 
-      Directory dir = await getApplicationDocumentsDirectory();
-      String path = '${dir.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
+      Directory? dir = kIsWeb ? null : await getApplicationDocumentsDirectory();
+      String path = kIsWeb
+          ? 'voiceNote.webm'
+          : '${dir?.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
 
       await _myRecorder.startRecorder(
         toFile: path,
-        codec: Codec.aacADTS,
+        codec: codec,
       );
 
       emit(RecordAudioStarted());
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint(e.toString());
+      debugPrint(st.toString());
       emit(RecordAudioReady());
     }
   }
@@ -105,7 +114,7 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
   @override
   Future<void> close() {
     try {
-      _myRecorder.closeAudioSession();
+      _myRecorder.closeRecorder();
     } catch (e) {
       //ignore
     }

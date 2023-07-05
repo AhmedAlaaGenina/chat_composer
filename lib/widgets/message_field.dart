@@ -5,6 +5,8 @@ import '../cubit/recordaudio_cubit.dart';
 
 class MessageField extends StatefulWidget {
   final FocusNode? focusNode;
+  final Function(String?)? onTextChanged;
+  final TextDirection? textDirection;
   final TextEditingController? controller;
   final Widget? leading;
   final List<Widget>? actions;
@@ -20,6 +22,8 @@ class MessageField extends StatefulWidget {
     this.actions,
     this.focusNode,
     this.controller,
+    this.textDirection,
+    this.onTextChanged,
     this.leading,
     this.textCapitalization,
     this.textInputAction,
@@ -60,6 +64,9 @@ class _MessageFieldState extends State<MessageField> {
                     const EdgeInsets.symmetric(horizontal: 8),
                 child: TextField(
                   focusNode: widget.focusNode,
+                  textDirection: widget.textDirection == null
+                      ? TextDirection.ltr
+                      : widget.textDirection,
                   controller: widget.controller,
                   textCapitalization:
                       widget.textCapitalization ?? TextCapitalization.sentences,
@@ -74,6 +81,9 @@ class _MessageFieldState extends State<MessageField> {
                     context
                         .read<RecordAudioCubit>()
                         .toggleRecord(canRecord: s.isEmpty);
+                    widget.onTextChanged == null
+                        ? () {}
+                        : widget.onTextChanged!(s);
                   },
                   decoration: widget.decoration ??
                       const InputDecoration(
