@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'consts/consts.dart';
 import 'cubit/recordaudio_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/message_field.dart';
-import 'package:flutter/material.dart';
 import 'widgets/send_button.dart';
 
 class ChatComposer extends StatefulWidget {
@@ -229,7 +230,7 @@ class _ChatComposerState extends State<ChatComposer>
 
   @override
   void dispose() {
-    localController.dispose();
+    // localController.dispose();
     if (widget.focusNode != null) widget.focusNode!.dispose();
     super.dispose();
   }
