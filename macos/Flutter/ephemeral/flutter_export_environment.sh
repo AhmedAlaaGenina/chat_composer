@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\src\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\AhmedAbdelma\StudioProjects\chat_composer"
+export "FLUTTER_ROOT=/Users/ahmedalaa/Developer/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/ahmedalaa/AndroidStudioProjects/chat_composer"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.3"
