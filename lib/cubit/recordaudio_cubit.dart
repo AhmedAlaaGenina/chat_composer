@@ -61,9 +61,7 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
         bool hasMic = await Permission.microphone.isGranted;
 
         if (!hasStorage || !hasMic) {
-          if (!hasStorage && !Platform.isIOS) {
-            await Permission.storage.request();
-          }
+          if (!hasStorage) await Permission.storage.request();
           if (!hasMic) await Permission.microphone.request();
           log('[chat_composer] 🔴 Denied permissions');
           return;
