@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 part 'recordaudio_state.dart';
 
 Codec codec = Codec.aacADTS;
@@ -59,7 +61,9 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
         bool hasMic = await Permission.microphone.isGranted;
 
         if (!hasStorage || !hasMic) {
-          if (!hasStorage) await Permission.storage.request();
+          if (!hasStorage && !Platform.isIOS) {
+            await Permission.storage.request();
+          }
           if (!hasMic) await Permission.microphone.request();
           log('[chat_composer] 🔴 Denied permissions');
           return;
