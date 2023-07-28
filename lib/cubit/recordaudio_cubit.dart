@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:audio_session/audio_session.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,11 +56,11 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
       //ignore
     }
     currentDuration.value = Duration.zero;
+    _initializer();
     try {
       if (!kIsWeb) {
         bool hasStorage = await Permission.storage.isGranted;
         bool hasMic = await Permission.microphone.isGranted;
-
         if (!hasStorage || !hasMic) {
           if (!hasStorage) await Permission.storage.request();
           if (!hasMic) await Permission.microphone.request();
@@ -86,6 +87,27 @@ class RecordAudioCubit extends Cubit<RecordaudioState> {
       debugPrint(st.toString());
       emit(RecordAudioReady());
     }
+  }
+
+  void _initializer() async {
+    final session = await AudioSession.instance;
+    await session.configure(AudioSessionConfiguration(
+      avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
+      avAudioSessionCategoryOptions:
+          AVAudioSessionCategoryOptions.allowBluetooth |
+              AVAudioSessionCategoryOptions.defaultToSpeaker,
+      avAudioSessionMode: AVAudioSessionMode.spokenAudio,
+      avAudioSessionRouteSharingPolicy:
+          AVAudioSessionRouteSharingPolicy.defaultPolicy,
+      avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
+      androidAudioAttributes: const AndroidAudioAttributes(
+        contentType: AndroidAudioContentType.speech,
+        flags: AndroidAudioFlags.none,
+        usage: AndroidAudioUsage.voiceCommunication,
+      ),
+      androidAudioFocusGainType: AndroidAudioFocusGainType.gain,
+      androidWillPauseWhenDucked: true,
+    ));
   }
 
   void stopRecord() async {
