@@ -1,16 +1,17 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.0.27" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/fluttertoast-8.2.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/audio_session-0.1.18" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider-2.1.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/fluttertoast-8.2.4" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_windows-2.2.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_sound_web-9.2.13" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_sound-9.2.13" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.11" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.7" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler-10.4.3" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.3" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider-2.0.15" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/audio_session-0.1.16" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler-11.1.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_foundation-2.3.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler_html-0.1.0+2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.1" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
